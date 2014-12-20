@@ -47,3 +47,4 @@ class Servo2BBMG(Servo):
             duration = abs(deg - self.pos) / 60. * 0.23
 
         self._output_pulse(pulse_width=pulse_width, duration=duration)
+        self.pos = deg
