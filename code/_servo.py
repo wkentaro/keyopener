@@ -3,6 +3,9 @@
 # servo.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
+import time
+from RPi import GPIO
+
 
 class Servo(object):
     def __init__(self, pin):
