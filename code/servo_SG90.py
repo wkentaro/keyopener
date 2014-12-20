@@ -1,34 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# servo_SG90.py
+# servo_2BBMG.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
 import time
-
 from RPi import GPIO
 
-
-def move_pos(pin, deg, speed):
-    """
-    (int)     deg:  0 - 60 [deg]
-    (float) speed: -1 -  1
-    """
-    t_start = time.time()
-    duration = 0.1 * deg / 60
-    while time.time() - t_start < duration:
-        high_duration = 0.0015 + speed * 0.0005
-        GPIO.output(pin, GPIO.HIGH)
-        time.sleep(high_duration)
-        GPIO.output(pin, GPIO.LOW)
-        time.sleep(0.02 - high_duration)
+from _servo import Servo
 
 
-if __name__ == '__main__':
-    PIN_CTRL = 21
+class ServoSG90(Servo):
+    def rotate(self, deg):
+        pulse_width = (0.00222 - 0.00046) / (-180.) * deg + 0.00134
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(PIN_CTRL, GPIO.OUT)
+        if self.pos is None:
+            duration = 0.69
+        else:
+            duration = abs(deg - self.pos) / 60. * 0.23
 
-    move_pos(PIN_CTRL, deg=40, speed=1)
-
-    GPIO.cleanup()
+        self._output_pulse(pulse_width=pulse_width, duration=duration)
+        self.pos = deg
