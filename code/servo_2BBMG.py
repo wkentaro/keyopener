@@ -20,3 +20,16 @@ class Servo2BBMG(Servo):
 
         self._output_pulse(pulse_width=pulse_width, duration=duration)
         self.pos = deg
+
+
+if __name__ == '__main__':
+    s = Servo2BBMG(pin=21)
+    while True:
+        try:
+            s.rotate(-90)
+            time.sleep(2)
+            s.rotate(90)
+            time.sleep(2)
+        except KeyboardInterrupt:
+            s.cleanup()
+            break
