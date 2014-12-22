@@ -10,20 +10,21 @@ from std_msgs.msg import (
     String,
 )
 
-from servo_2BBMG import Servo2BBMG
-from speak_raspi import SpeakRaspi
-
 
 class Raspi(object):
     def __init__(self):
-        pb_rotate_servo = rospy.Publisher('/jishu_pro/rotate_servo', Float32)
-        pb_speak = rospy.Publisher('/jishu_pro/speak_raspi', String)
+        rospy.init_node('raspi_interface')
+        self.pb_rotate_servo = rospy.Publisher('/jishu_pro/rotate_servo', Float32, queue_size=10)
+        self.pb_speak = rospy.Publisher('/jishu_pro/speak_raspi', String, queue_size=10)
+        rospy.sleep(1)
 
     def speak(self, sentence):
-        pb_speak.publish(String(sentence))
+        self.pb_speak.publish(String(sentence))
+        rospy.sleep(3)
 
     def rotate_servo(self, deg):
-        pb_rotate_servo.publish(Float32(deg))
+        self.pb_rotate_servo.publish(Float32(deg))
+        rospy.sleep(1)
 
 
 if __name__ == '__main__':
