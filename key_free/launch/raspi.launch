@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="free_key" type="rotate_servo_listener.py" name="/jishu_pro/rotate_servo"></node>
+</launch>
