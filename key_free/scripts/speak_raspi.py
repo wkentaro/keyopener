@@ -7,8 +7,7 @@ import os
 
 
 class SpeakRaspi(object):
-    def __init__(self, sentence, filename):
-        self.sentence = sentence
+    def __init__(self, filename='audio.mp3'):
         self.filename = filename
 
     def _get_audio(self):
@@ -23,8 +22,9 @@ class SpeakRaspi(object):
     def _cleanup(self):
         os.system('rm {0}'.format(self.filename))
 
-    def speak(self):
+    def speak(self, sentence):
         """main function"""
+        self.sentence = sentence
         self._get_audio()
         self._play_audio()
         self._cleanup()

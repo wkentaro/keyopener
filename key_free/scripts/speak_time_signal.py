@@ -19,8 +19,8 @@ def speak_time_signal():
     sentence = 'The time is {hour} {minute}.'.format(hour=hour, minute=minute)
     filename = 'time_signal.mp3'
     # speak raspi
-    s = SpeakRaspi(sentence=sentence, filename=filename)
-    s.speak()
+    s = SpeakRaspi(filename=filename)
+    s.speak(sentence=sentence)
 
 
 if __name__ == '__main__':
