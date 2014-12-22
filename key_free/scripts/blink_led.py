@@ -3,21 +3,32 @@
 # blink_led.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
-import rospy
+import time
 
 from RPi import GPIO
 
 
-class BlinkLED(object):
+class BlinkLed(object):
     def __init__(self, pin):
+        self.pin = pin
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pin, GPIO.OUT)
+        GPIO.setup(self.pin, GPIO.OUT)
+        time.sleep(1)
 
-    def blink(self):
-        GPIO.output(pin, GPIO.HIGH)
+    def on(self):
+        GPIO.output(self.pin, GPIO.HIGH)
+
+    def off(self):
+        GPIO.output(self.pin, GPIO.LOW)
+
+    def cleanup(self):
+        GPIO.cleanup()
 
 
 if __name__ == '__main__':
-    PIN_CTRL = 17
-    bl = BlinkLED(PIN_CTRL)
-    bl.blink()
+    PIN_CTRL = 13
+    bl = BlinkLed(PIN_CTRL)
+    bl.on()
+    time.sleep(1)
+    bl.off()
+    bl.cleanup()
