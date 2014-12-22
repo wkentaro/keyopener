@@ -10,13 +10,12 @@ from blink_led import BlinkLed
 PIN_CTRL = 13
 
 
+bl = BlinkLed(PIN_CTRL)
 def callback(msg):
-    bl = BlinkLed(PIN_CTRL)
     if msg.data is True:
         bl.on()
     else:
         bl.off()
-    bl.cleanup()
 
 
 def listener():
