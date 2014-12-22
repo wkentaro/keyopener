@@ -1,4 +1,5 @@
 <launch>
     <node pkg="key_free" type="rotate_servo_listener.py" name="rotate_servo" />
     <node pkg="key_free" type="speak_raspi_listener.py" name="speak_raspi" />
+    <node pkg="key_free" type="blink_led_listener.py" name="blink_led" />
 </launch>
