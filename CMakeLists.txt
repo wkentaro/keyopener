@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(key_free)
+project(jishu_pro)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -77,7 +77,7 @@ find_package(catkin REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES key_free
+#  LIBRARIES jishu_pro
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -91,19 +91,19 @@ catkin_package(
 # include_directories(include)
 
 ## Declare a cpp library
-# add_library(key_free
-#   src/${PROJECT_NAME}/key_free.cpp
+# add_library(jishu_pro
+#   src/${PROJECT_NAME}/jishu_pro.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(key_free_node src/key_free_node.cpp)
+# add_executable(jishu_pro_node src/jishu_pro_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(key_free_node key_free_generate_messages_cpp)
+# add_dependencies(jishu_pro_node jishu_pro_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(key_free_node
+# target_link_libraries(jishu_pro_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -122,7 +122,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS key_free key_free_node
+# install(TARGETS jishu_pro jishu_pro_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -147,7 +147,7 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_key_free.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_jishu_pro.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
