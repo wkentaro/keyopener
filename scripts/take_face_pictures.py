@@ -42,3 +42,12 @@ class TakeFacePictures(object):
         """When everything done, release the capture"""
         cap.release()
         cv2.destroyAllWindows()
+
+
+def main():
+    t = TakeFacePictures()
+    t.capture_loop()
+
+
+if __name__ == '__main__':
+    main()
