@@ -19,7 +19,7 @@ class SpeakRaspi(object):
         """play audio"""
         os.system('mpg123 -q {0}'.format(self.filename))
 
-    def _cleanup(self):
+    def _rm_audio(self):
         os.system('rm {0}'.format(self.filename))
 
     def speak(self, sentence):

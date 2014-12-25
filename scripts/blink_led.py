@@ -21,7 +21,7 @@ class BlinkLed(object):
     def off(self):
         GPIO.output(self.pin, GPIO.LOW)
 
-    def cleanup(self):
+    def __del__(self):
         GPIO.cleanup()
 
 

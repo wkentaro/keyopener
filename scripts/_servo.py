@@ -32,5 +32,5 @@ class Servo(object):
             GPIO.output(self.pin, GPIO.LOW)
             time.sleep(cycle - pulse_width)
 
-    def cleanup(self):
+    def __del__(self):
         GPIO.cleanup()
