@@ -33,7 +33,7 @@ class TakePhotos(object):
             if self.end_flag is True:
                 break
 
-    def _take_photo(self):
+    def _save_frame(self):
         base = sha1(str(time.time())).hexdigest()
         filename = 'img/{0}.png'.format(base)
         cv2.imwrite(filename, self.frame)
