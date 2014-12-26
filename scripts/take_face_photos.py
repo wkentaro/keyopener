@@ -22,7 +22,7 @@ class TakeFacePhotos(TakePhotos):
         vis = self._detect_face()
         if self.face_exists is True:
             self._save_frame()
-        if len(os.listdir('img/')) >= self.limit:
+        if len(os.listdir('../data/raw/')) >= self.limit:
             self.end_flag = True
         cv2.imshow('detect_face', vis)
         k = cv2.waitKey(100)

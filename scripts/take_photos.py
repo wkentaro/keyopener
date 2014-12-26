@@ -35,7 +35,7 @@ class TakePhotos(object):
 
     def _save_frame(self):
         base = sha1(str(time.time())).hexdigest()
-        filename = 'img/{0}.png'.format(base)
+        filename = '../data/raw/{0}.png'.format(base)
         cv2.imwrite(filename, self.frame)
 
     def _event_handle(self):
