@@ -3,10 +3,13 @@
 # take_face_pictures.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
+import time
+from hashlib import sha1
+
 import cv2
 
 
-class TakePictures(object):
+class TakePhotos(object):
     def __init__(self):
         """Initialize camera"""
         self.cap = cv2.VideoCapture(0)
@@ -24,15 +27,19 @@ class TakePictures(object):
             # Resize frame
             if size is not None and len(size) == 2:
                 self.frame = cv2.resize(self.frame, size)
-            # # Display the resulting frame
-            # cv2.imshow('camera capture', self.frame)
             # Some event
             self._event_handle()
             # End flag
             if self.end_flag is True:
                 break
 
+    def _take_photo(self):
+        base = sha1(str(time.time())).hexdigest()
+        filename = 'img/{0}.png'.format(base)
+        cv2.imwrite(filename, self.frame)
+
     def _event_handle(self):
+        cv2.imshow('take_photos', self.frame)
         k = cv2.waitKey(1)
         if k == 27:
             self.end_flag = True
@@ -46,7 +53,7 @@ class TakePictures(object):
 
 
 def main():
-    t = TakePictures()
+    t = TakePhotos()
     t.capture_loop()
 
 
