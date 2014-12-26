@@ -6,7 +6,7 @@
 import cv2
 
 
-class TakeFacePictures(object):
+class TakePictures(object):
     def __init__(self):
         """Initialize camera"""
         self.cap = cv2.VideoCapture(0)
@@ -24,15 +24,16 @@ class TakeFacePictures(object):
             # Resize frame
             if size is not None and len(size) == 2:
                 self.frame = cv2.resize(self.frame, size)
-            # Display the resulting frame
-            cv2.imshow('camera capture', self.frame)
-            # Key event
-            self._key_event(cv2.waitKey(1))
-            # end flag
+            # # Display the resulting frame
+            # cv2.imshow('camera capture', self.frame)
+            # Some event
+            self._event_handle()
+            # End flag
             if self.end_flag is True:
                 break
 
-    def _key_event(self, k):
+    def _event_handle(self):
+        k = cv2.waitKey(1)
         if k == 27:
             self.end_flag = True
         elif k == ord('s'):
@@ -40,12 +41,12 @@ class TakeFacePictures(object):
 
     def __del__(self):
         """When everything done, release the capture"""
-        cap.release()
+        self.cap.release()
         cv2.destroyAllWindows()
 
 
 def main():
-    t = TakeFacePictures()
+    t = TakePictures()
     t.capture_loop()
 
 
