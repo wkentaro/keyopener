@@ -6,7 +6,7 @@
 import time
 from RPi import GPIO
 
-from _servo import Servo
+from servo import Servo
 
 
 class ServoSG90(Servo):
