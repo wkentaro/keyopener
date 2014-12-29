@@ -37,6 +37,7 @@ class TakePhotos(object):
         base = sha1(str(time.time())).hexdigest()
         filename = '../data/raw/{0}.png'.format(base)
         cv2.imwrite(filename, self.frame)
+        print "saved as", filename
 
     def _event_handle(self):
         cv2.imshow('take_photos', self.frame)
