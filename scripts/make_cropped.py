@@ -13,9 +13,10 @@ from take_face_photos import TakeFacePhotos
 
 
 def make_train_data():
-    raw_dir = '../data/raw'
+    # raw_dir = '../data/raw/positive'
+    raw_dir = '../data/raw/negative/ExtendedYaleB/yaleB11'
     for fl in os.listdir(raw_dir):
-        if not fl.endswith('.png'):
+        if not fl.endswith('.png') and not fl.endswith('.pgm'):
             continue
         img = cv2.imread(os.path.join(raw_dir, fl))
         faces = TakeFacePhotos.detect_face(img)
@@ -23,9 +24,13 @@ def make_train_data():
             continue
         x, y, w, h = faces[0]
         cropped = img[y:y+h, x:x+w]
+        cropped_gray = cv2.cvtColor(cropped, cv2.COLOR_BGR2GRAY)
         # save cropped
-        filename = os.path.join('../data/positive', fl)
-        cv2.imwrite(filename, cropped)
+        # filename = os.path.join('../data/cropped/kentaro', fl)
+        filename = os.path.join('../data/cropped', fl)
+        cv2.imwrite(filename, cropped_gray)
+        print "saved as", filename
+        print "size", cropped_gray.shape
 
 
 if __name__ == '__main__':
