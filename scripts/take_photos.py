@@ -44,7 +44,7 @@ class TakePhotos(object):
         if k == 27:
             self.end_flag = True
         elif k == ord('s'):
-            cv2.imwrite('capture.png', self.frame)
+            self._save_frame()
 
     def __del__(self):
         """When everything done, release the capture"""
