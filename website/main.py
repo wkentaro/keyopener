@@ -157,9 +157,9 @@ def check_access_right(email_address):
     else:
         return True
 
-@app.route('/manage-user-access-right/')
-def manage_user_access_right():
-    NotImplementedError()
+@app.route('/manage-access-right/')
+def manage_access_right():
+    return render_template('manage_access_right.html')
 
 @app.route('/open-key/')
 def open_key():
