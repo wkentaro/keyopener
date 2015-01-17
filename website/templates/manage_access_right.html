@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="LogCal, Google Calendar, Gcal, Life Log, Life Style, Time Management">
-  <meta name="description" content="Manage your time using LogCal with Google Calendar.">
-  <link rel="index" href="/" title="LogCal">
+  <title>AccessRight - keyopener</title>
   <link rel="shortcut icon" href="/static/favicon.png">
   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
   <link href="/static/style.css" type="text/css" rel="stylesheet">
@@ -47,60 +45,70 @@
     label {
       font-weight: 400;
     }
+    ul.authorized-people li {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-<div class="container" id="header">
-  <div class="navbar navbar-default">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="text-orange">key</span><span class="text-green">opener</span></a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="/">KeyControl</a></li>
-        <li><a href="/log/">Log</a></li>
-        <li class="active"><a href="/manage-access-right/">AccessRight</a></li>
-      </ul>
-      <div class="navbar-form navbar-right">
-        <a href="/signout" class="btn btn-primary">Sign out</a>
+<div class="wrapper">
+  <div class="container" id="header">
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><span class="text-orange">key</span><span class="text-green">opener</span></a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">KeyControl</a></li>
+          <li><a href="/log/">Log</a></li>
+          <li class="active"><a href="/manage-access-right/">AccessRight</a></li>
+        </ul>
+        <div class="navbar-form navbar-right">
+          <a href="/signout" class="btn btn-primary">Sign out</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4 col-sm-offset-4">
-      <div class="give-access-right">
-        <form class="" role="form" method="POST" action="/give-access-right/">
-          <div class="form-group">
-            <label for="email">Give some one right to open the key.</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email address" />
-          </div>
-          <button type="submit" class="btn btn-success">Give access right</button>
-        </form>
-      </div>
-      <div class="remove-access-right">
-        <form class="" role="form" method="POST" action="/remove-access-right/">
-          <p>Authorized people</p>
-          <ul class="list-unstyled">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <div class="give-access-right">
+          <form class="" role="form" method="POST" action="/give-access-right/">
+            <div class="form-group">
+              <label for="email">Give some one right to open the key.</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
+            </div>
+            <button type="submit" class="btn btn-success">Give access right</button>
+          </form>
+        </div>
+        <div class="remove-access-right">
+          <p style="padding-top:30px;">Authorized people</p>
+          <table class="table">
             {% for person in authorized_people %}
-            <li>
-              {{ person.0 }}
-              <input type="hidden" value="{{ person.email_address }}">
-              <button type="submit" class="btn btn-warning">Remove</button>
-            </li>
+            <tr>
+              <td>{{ person.0 }}</td>
+              <td>
+                <form class="" role="form" method="POST" action="/remove-access-right/">
+                  {% if person.0 != email_address %}
+                    <input type="hidden" name="email" value="{{ person.0 }}">
+                    <button type="submit" class="btn btn-xs btn-warning">Remove</button>
+                  {% endif %}
+                </form>
+              </td>
+            </tr>
             {% endfor%}
-          </ul>
-        </form>
+          </table>
+        </div>
       </div>
     </div>
   </div>
+  <div class="push"></div>
 </div>
 <div class="footer">
   <div class="text-center">

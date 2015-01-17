@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 # main.py
 #
+import datetime
 import sqlite3
 import httplib2
 import logging
@@ -15,6 +16,7 @@ import jinja2
 
 from oauth2client.client import Credentials
 from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import AccessTokenRefreshError
 from apiclient.discovery import build
 from oauth2client.client import FlowExchangeError
 from apiclient import errors
@@ -104,12 +106,18 @@ def google_signin_step2():
     authorization_code = request.args.get('code', '')
     credentials = flow.step2_exchange(authorization_code)
     # get user info
-    user_info = get_user_info(credentials)
-    # email_address = user_info.get('email', '')
+    try:
+        user_info = get_user_info(credentials)
+    except AccessTokenRefreshError:
+        return redirect(url_for('signout'))
     user_id = user_info.get('id')
+    email_address = user_info.get('email', '')
+    name = user_info.get('name')
     # store
     store_credentials(user_id, credentials)
     session['user_id'] = user_id
+    session['email_address'] = email_address
+    session['name'] = name
     # display
     return redirect(url_for('account'))
 
@@ -122,9 +130,11 @@ def account():
     user_id = session['user_id']
     credentials = get_stored_credentials(user_id)
     # get user info
-    user_info = get_user_info(credentials)
-    email_address = user_info.get('email', '')
-    user_id = user_info.get('id')
+    try:
+        user_info = get_user_info(credentials)
+    except AccessTokenRefreshError:
+        return redirect(url_for('signout'))
+    email_address = session['email_address']
     access_right = check_access_right(email_address)
     key_status = check_key_status()
     # return str(user_info)
@@ -162,13 +172,17 @@ def manage_access_right():
     if 'user_id' not in session:
         # if signed in
         return redirect(url_for('index'))
+    email_address = session['email_address']
+    # get authorized people
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = 'SELECT email_address FROM user WHERE authorized = 1'
+    # get user info
     c.execute(sql)
-    authorized_people = c.fethall()
+    authorized_people = c.fetchall()
     return render_template('manage_access_right.html',
-            authorized_people=authorized_people)
+            authorized_people=authorized_people,
+            email_address=email_address)
 
 @app.route('/open-key/')
 def open_key():
@@ -184,6 +198,10 @@ def open_key():
     c.execute(sql)
     conn.commit()
     conn.close()
+    # save log
+    name = session['name']
+    action = 'open'
+    store_access_log(name, action)
     return redirect(url_for('account'))
 
 @app.route('/close-key/')
@@ -200,11 +218,15 @@ def close_key():
     c.execute(sql)
     conn.commit()
     conn.close()
+    # save log
+    name = session['name']
+    action = 'close'
+    store_access_log(name, action)
     return redirect(url_for('account'))
 
 @app.route('/give-access-right/', methods=['POST'])
 def give_access_right():
-    email_address = request.form['email_address']
+    email_address = request.form['email']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""INSERT INTO user (email_address, authorized) """
@@ -213,24 +235,46 @@ def give_access_right():
     c.execute(sql)
     conn.commit()
     conn.close()
+    return redirect(url_for('manage_access_right'))
+
+def store_access_log(name, action):
+    time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    sql = ("""INSERT INTO log (time, name, action) """
+           """VALUES ('{time}', '{name}', '{action}')""")
+    sql = sql.format(time=time, name=name, action=action)
+    c.execute(sql)
+    conn.commit()
+    conn.close()
 
 @app.route('/remove-access-right/', methods=['POST'])
 def remove_access_right():
-    email_address = request.form['email_address']
+    email_address = request.form['email']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = ("""UPDATE user SET authorized = 0 """
-           """WHERE email_address = '{email_address}'""")
+    sql = "DELETE FROM user WHERE email_address = '{email_address}'"
     sql = sql.format(email_address=email_address)
     c.execute(sql)
     conn.commit()
     conn.close()
+    return redirect(url_for('manage_access_right'))
 
 @app.route('/signout/')
 def signout():
     # remove the username from the session if it's there
     session.pop('user_id', None)
     return redirect(url_for('index'))
+
+@app.route('/log/')
+def log():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    sql = 'SELECT * FROM log'
+    c.execute(sql)
+    log = c.fetchall()
+    conn.close()
+    return render_template('log.html', log=log)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 if __name__ == '__main__':

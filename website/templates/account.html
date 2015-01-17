@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="LogCal, Google Calendar, Gcal, Life Log, Life Style, Time Management">
-  <meta name="description" content="Manage your time using LogCal with Google Calendar.">
-  <link rel="index" href="/" title="LogCal">
+  <title>KeyControl - keyopener</title>
   <link rel="shortcut icon" href="/static/favicon.png">
   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
   <link href="/static/style.css" type="text/css" rel="stylesheet">
@@ -47,53 +45,56 @@
   </style>
 </head>
 <body>
-<div class="container" id="header">
-  <div class="navbar navbar-default">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/"><span class="text-orange">key</span><span class="text-green">opener</span></a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/">KeyControl</a></li>
-        <li><a href="/log/">Log</a></li>
-        <li><a href="/manage-access-right/">AccessRight</a></li>
-      </ul>
-      <div class="navbar-form navbar-right">
-        <a href="/signout" class="btn btn-primary">Sign out</a>
+<div class="wrapper">
+  <div class="container" id="header">
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><span class="text-orange">key</span><span class="text-green">opener</span></a>
       </div>
-    </div>
-  </div>
-</div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4 col-sm-offset-4">
-      <div class="card">
-        <div class="user-icon"><img src="{{ user_info.picture }}" class="img-responsive" /></div>
-        <div class="text-center"><h3>{{ user_info.name }}</h3></div>
-        <div class="text-center">
-          {% if access_right == 1 %}
-            {% if key_status == 'open' %}
-              <p>Now key is open.</p>
-              <a href="/close-key/" class="btn btn-warning signin">Close</a>
-            {% else %}
-              <p>Now key is closed.</p>
-              <a href="/open-key/" class="btn btn-success signin">Open</a>
-            {% endif %}
-          {% else %}
-            <div class="no-right-message">
-              <p>You don't have permission to control the key.</p>
-            </div>
-          {% endif %}
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">KeyControl</a></li>
+          <li><a href="/log/">Log</a></li>
+          <li><a href="/manage-access-right/">AccessRight</a></li>
+        </ul>
+        <div class="navbar-form navbar-right">
+          <a href="/signout" class="btn btn-primary">Sign out</a>
         </div>
       </div>
     </div>
   </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <div class="card">
+          <div class="user-icon"><img src="{{ user_info.picture }}" class="img-responsive" /></div>
+          <div class="text-center"><h3>{{ user_info.name }}</h3></div>
+          <div class="text-center">
+            {% if access_right == 1 %}
+              {% if key_status == 'open' %}
+                <p>Now key is open.</p>
+                <a href="/close-key/" class="btn btn-warning signin">Close</a>
+              {% else %}
+                <p>Now key is closed.</p>
+                <a href="/open-key/" class="btn btn-success signin">Open</a>
+              {% endif %}
+            {% else %}
+              <div class="no-right-message">
+                <p>You don't have permission to control the key.</p>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="push"></div>
 </div>
 <div class="footer">
   <div class="text-center">

@@ -4,18 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in - keyopener</title>
+    <title>keyopener</title>
     <link rel="index" href="/" title="Sign in - keyopener">
     <link rel="shortcut icon" href="/static/favicon.png">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="/static/style.css" type="text/css" rel="stylesheet">
     <style>
-      html, body {
-        height: 100%;
+      body{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #fff;
       }
       .header {
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
       }
       .header h1 {
         font-weight: 400;
@@ -26,18 +28,22 @@
         margin-bottom: 10px;
       }
       .banner h2 {
-        font-size: 25px;
+        font-size: 18px;
         margin-top: 0;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         color: #777777;
         font-weight: 300;
       }
       @media(max-width:480px) {
+        .card {
+          margin-top: 40px;
+        }
         .header h1 {
           font-size: 40px;
         }
         .banner h2 {
           font-size: 20px;
+          margin-bottom: 20px;
         }
       }
       @media(min-width:480px) {
@@ -51,20 +57,23 @@
     </style>
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-4 col-sm-offset-4">
-          <div class="card">
-            <div class="header text-center">
-              <h1><span class="text-orange">key</span><span class="text-green">opener</span></h1>
-            </div>
-            <div class="banner text-center"><h2>Control home key from anywhere.</h2></div>
-            <div class="text-center">
-              <a href="/step1/" class="btn btn-primary signin">Sign in with Google</a>
+    <div class="wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+            <div class="card">
+              <div class="header text-center">
+                <h1><span class="text-orange">key</span><span class="text-green">opener</span></h1>
+              </div>
+              <div class="banner text-center"><h2>Control home key from anywhere.</h2></div>
+              <div class="text-center">
+                <a href="/step1/" class="btn btn-primary signin">Sign in with Google</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="push"></div>
     </div>
     <div class="footer">
       <div class="text-center">
