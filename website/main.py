@@ -159,7 +159,16 @@ def check_access_right(email_address):
 
 @app.route('/manage-access-right/')
 def manage_access_right():
-    return render_template('manage_access_right.html')
+    if 'user_id' not in session:
+        # if signed in
+        return redirect(url_for('index'))
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    sql = 'SELECT email_address FROM user WHERE authorized = 1'
+    c.execute(sql)
+    authorized_people = c.fethall()
+    return render_template('manage_access_right.html',
+            authorized_people=authorized_people)
 
 @app.route('/open-key/')
 def open_key():
@@ -194,8 +203,8 @@ def close_key():
     return redirect(url_for('account'))
 
 @app.route('/give-access-right/', methods=['POST'])
-def give_access_right(user_id):
-    user_id = request.form['user_id']
+def give_access_right():
+    email_address = request.form['email_address']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""INSERT INTO user (email_address, authorized) """
@@ -207,7 +216,7 @@ def give_access_right(user_id):
 
 @app.route('/remove-access-right/', methods=['POST'])
 def remove_access_right():
-    user_id = request.form['user_id']
+    email_address = request.form['email_address']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""UPDATE user SET authorized = 0 """
