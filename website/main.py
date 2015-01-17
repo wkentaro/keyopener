@@ -9,7 +9,7 @@ import os
 import pickle
 import sqlite3
 
-from flask import Flask, abort, redirect, url_for, request, render_template
+from flask import Flask, abort, redirect, url_for, request, render_template, session
 import jinja2
 
 from oauth2client.client import Credentials
@@ -40,12 +40,14 @@ def store_credentials(user_id, credentials):
     # check if user_id already exists
     credentials_exist = get_stored_credentials(user_id)
     if credentials_exist is not None:
-        return
+        sql = ("""UPDATE credentials SET credentials = '{credentials}' """
+               """WHERE user_id = '{user_id}'""")
+    else:
+        sql = ("""INSERT INTO credentials (user_id, credentials) """
+               """VALUES ('{user_id}', '{credentials}')""")
     # store credentials
     conn = sqlite3.connect('keyopener.sqlite3')
     c = conn.cursor()
-    sql = ("""INSERT INTO credentials (user_id, credentials) """
-           """VALUES ('{user_id}', '{credentials}')""")
     sql = sql.format(user_id=user_id, credentials=credentials.to_json())
     c.execute(sql)
     conn.commit()
@@ -96,17 +98,21 @@ def google_signin_step2():
     credentials = flow.step2_exchange(authorization_code)
     # get user info
     user_info = get_user_info(credentials)
-    email_address = user_info.get('email', '')
+    # email_address = user_info.get('email', '')
     user_id = user_info.get('id')
     # store
     store_credentials(user_id, credentials)
+    session['user_id'] = user_id
     # display
-    text = str(user_info)
-    return text + '<a href="/session-test/?user_id={0}">test</a>'.format(user_id)
+    return redirect(url_for('account'))
 
-@app.route('/session-test/', methods=['GET'])
-def session_test():
-    user_id = request.args.get('user_id', '')
+@app.route('/account/', methods=['GET'])
+def account():
+    if 'user_id' not in session:
+        # if not logged in 
+        return redirect(url_for('/'))
+
+    user_id = session['user_id']
     credentials = get_stored_credentials(user_id)
     # get user info
     user_info = get_user_info(credentials)
@@ -116,6 +122,12 @@ def session_test():
     text = str(user_info)
     return text
 
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('user_id', None)
+    return redirect(url_for('index'))
 
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run('0.0.0.0', debug=True)
