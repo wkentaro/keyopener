@@ -49,6 +49,9 @@
     ul.authorized-people li {
       margin-top: 10px;
     }
+    #email {
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
@@ -81,27 +84,31 @@
       <div class="give-access-right">
         <form class="" role="form" method="POST" action="/give-access-right/">
           <div class="form-group">
-            <label for="email">Give some one right to open the key.</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="email address" />
+            <label for="name">Give some one right to open the key.</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
           </div>
           <button type="submit" class="btn btn-success">Give access right</button>
         </form>
       </div>
       <div class="remove-access-right">
         <p style="padding-top:30px;">Authorized people</p>
-        <ul class="authorized-people">
+        <table class="table">
           {% for person in authorized_people %}
-          <li>
-            <form class="" role="form" method="POST" action="/remove-access-right/">
-              {{ person.0 }}
-              {% if person.0 != email_address %}
-                <input type="hidden" name="email" value="{{ person.0 }}">
-                <button type="submit" class="btn btn-xs btn-warning">Remove</button>
-              {% endif %}
-            </form>
-          </li>
+          <tr>
+            <td>{{ person.0 }}</td>
+            <td>{{ person.1 }}</td>
+            <td>
+              <form class="" role="form" method="POST" action="/remove-access-right/">
+                {% if person.1 != email_address %}
+                  <input type="hidden" name="email" value="{{ person.0 }}">
+                  <button type="submit" class="btn btn-xs btn-warning">Remove</button>
+                {% endif %}
+              </form>
+            </td>
+          </tr>
           {% endfor%}
-        </ul>
+        </table>
       </div>
     </div>
   </div>
