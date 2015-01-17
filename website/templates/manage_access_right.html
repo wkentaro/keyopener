@@ -4,9 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="LogCal, Google Calendar, Gcal, Life Log, Life Style, Time Management">
-  <meta name="description" content="Manage your time using LogCal with Google Calendar.">
-  <link rel="index" href="/" title="LogCal">
+  <title>AccessRight - keyopener</title>
+  <link rel="index" href="/" title="Sign in - keyopener">
   <link rel="shortcut icon" href="/assets/ico/favicon.ico">
   <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
   <link href="/static/style.css" type="text/css" rel="stylesheet">
@@ -47,6 +46,9 @@
     label {
       font-weight: 400;
     }
+    ul.authorized-people li {
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -86,18 +88,20 @@
         </form>
       </div>
       <div class="remove-access-right">
-        <form class="" role="form" method="POST" action="/remove-access-right/">
-          <p>Authorized people</p>
-          <ul class="list-unstyled">
-            {% for person in authorized_people %}
-            <li>
+        <p style="padding-top:30px;">Authorized people</p>
+        <ul class="authorized-people">
+          {% for person in authorized_people %}
+          <li>
+            <form class="" role="form" method="POST" action="/remove-access-right/">
               {{ person.0 }}
-              <input type="hidden" value="{{ person.email_address }}">
-              <button type="submit" class="btn btn-warning">Remove</button>
-            </li>
-            {% endfor%}
-          </ul>
-        </form>
+              {% if person.0 != email_address %}
+                <input type="hidden" name="email" value="{{ person.0 }}">
+                <button type="submit" class="btn btn-xs btn-warning">Remove</button>
+              {% endif %}
+            </form>
+          </li>
+          {% endfor%}
+        </ul>
       </div>
     </div>
   </div>
