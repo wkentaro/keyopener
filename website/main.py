@@ -176,7 +176,7 @@ def manage_access_right():
     # get authorized people
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = 'SELECT name, email_address FROM user WHERE authorized = 1'
+    sql = 'SELECT email_address FROM user WHERE authorized = 1'
     # get user info
     c.execute(sql)
     authorized_people = c.fetchall()
@@ -226,13 +226,12 @@ def close_key():
 
 @app.route('/give-access-right/', methods=['POST'])
 def give_access_right():
-    name = request.form['name']
     email_address = request.form['email']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = ("""INSERT INTO user (name, email_address, authorized) """
-           """VALUES ('{name}', '{email_address}', 1)""")
-    sql = sql.format(name=name, email_address=email_address)
+    sql = ("""INSERT INTO user (email_address, authorized) """
+           """VALUES ('{email_address}', 1)""")
+    sql = sql.format(email_address=email_address)
     c.execute(sql)
     conn.commit()
     conn.close()

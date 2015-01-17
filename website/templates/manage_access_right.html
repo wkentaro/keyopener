@@ -49,9 +49,6 @@
     ul.authorized-people li {
       margin-top: 10px;
     }
-    #email {
-      margin-top: 5px;
-    }
   </style>
 </head>
 <body>
@@ -84,8 +81,7 @@
       <div class="give-access-right">
         <form class="" role="form" method="POST" action="/give-access-right/">
           <div class="form-group">
-            <label for="name">Give some one right to open the key.</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name" />
+            <label for="email">Give some one right to open the key.</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Email address" required />
           </div>
           <button type="submit" class="btn btn-success">Give access right</button>
@@ -97,10 +93,9 @@
           {% for person in authorized_people %}
           <tr>
             <td>{{ person.0 }}</td>
-            <td>{{ person.1 }}</td>
             <td>
               <form class="" role="form" method="POST" action="/remove-access-right/">
-                {% if person.1 != email_address %}
+                {% if person.0 != email_address %}
                   <input type="hidden" name="email" value="{{ person.0 }}">
                   <button type="submit" class="btn btn-xs btn-warning">Remove</button>
                 {% endif %}
