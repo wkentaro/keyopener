@@ -167,7 +167,15 @@ def open_key():
         # if not logged in 
         return redirect(url_for('index'))
     open_file = os.path.join(os.path.dirname(__file__), 'open.py')
-    os.system('python {0}'.format(open_file))
+    os.system('sudo python {0}'.format(open_file))
+    # update db
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    sql = "UPDATE keystatus SET status = 'open'"
+    c.execute(sql)
+    conn.commit()
+    conn.close()
+    return redirect(url_for('account'))
 
 @app.route('/close-key/')
 def close_key():
@@ -175,7 +183,15 @@ def close_key():
         # if not logged in 
         return redirect(url_for('index'))
     close_file = os.path.join(os.path.dirname(__file__), 'close.py')
-    os.system('python {0}'.format(close_file))
+    os.system('sudo python {0}'.format(close_file))
+    # update db
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    sql = "UPDATE keystatus SET status = 'close'"
+    c.execute(sql)
+    conn.commit()
+    conn.close()
+    return redirect(url_for('account'))
 
 @app.route('/give-access-right/', methods=['POST'])
 def give_access_right(user_id):
@@ -186,6 +202,7 @@ def give_access_right(user_id):
            """VALUES ('{email_address}', 1)""")
     sql = sql.format(email_address=email_address)
     c.execute(sql)
+    conn.commit()
     conn.close()
 
 @app.route('/remove-access-right/', methods=['POST'])
@@ -197,6 +214,7 @@ def remove_access_right():
            """WHERE email_address = '{email_address}'""")
     sql = sql.format(email_address=email_address)
     c.execute(sql)
+    conn.commit()
     conn.close()
 
 @app.route('/signout/')

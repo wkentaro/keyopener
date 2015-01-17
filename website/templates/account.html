@@ -70,7 +70,7 @@
         <div class="text-center"><h3>{{ user_info.name }}</h3></div>
         <div class="text-center">
           {% if access_right == 1 %}
-            {% if key_status == 1 %}
+            {% if key_status == 'open' %}
               <p>Now key is open.</p>
               <a href="/close-key/" class="btn btn-warning signin">Close</a>
             {% else %}
