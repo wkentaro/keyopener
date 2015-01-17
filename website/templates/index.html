@@ -8,6 +8,7 @@
     <link rel="index" href="/" title="Sign in - keyopener">
     <link rel="shortcut icon" href="/assets/ico/favicon.ico">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="/static/style.css" type="text/css" rel="stylesheet">
     <style>
       html, body {
         height: 100%;
@@ -19,19 +20,6 @@
       .header h1 {
         font-weight: 400;
         font-size: 50px;
-      }
-      .signin-card {
-        margin: auto;
-        margin-top: 100px;
-        height: 280px;
-        width: 300px;
-        background-color: #f7f7f7;
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        border-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       }
       .banner {
         margin-top: 10px;
@@ -51,10 +39,6 @@
         .banner h2 {
           font-size: 20px;
         }
-        .signin-card {
-          height: 250px;
-          width: 270px;
-        }
       }
       @media(min-width:480px) {
         .signin {
@@ -64,44 +48,13 @@
           border-radius: 6px;
         }
       }
-      .text-blue {
-        color: #2196F3;
-      }
-      .text-green {
-        color: #4CAF50;
-      }
-      .text-indigo {
-        color: #3F51B5;
-      }
-      .text-orange {
-        color: #FF9800;
-      }
-      .btn-primary {
-        background-color: #2196F3;
-      }
-      .footer {
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        font-weight: 400;
-        margin-top: 50px;
-        border-top: 1px solid #eeeeee;
-        padding-top: 30px;
-        padding-bottom: 30px;
-      }
-      @media(max-height:480px) {
-        .footer {
-          position: relative;
-        }
-      }
     </style>
   </head>
   <body>
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
-          <div class="signin-card">
+          <div class="card">
             <div class="header text-center">
               <h1><span class="text-orange">key</span><span class="text-green">opener</span></h1>
             </div>

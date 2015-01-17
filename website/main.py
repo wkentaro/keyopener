@@ -116,14 +116,60 @@ def account():
     credentials = get_stored_credentials(user_id)
     # get user info
     user_info = get_user_info(credentials)
-    email_address = user_info.get('email', '')
+#     email_address = user_info.get('email', '')
     user_id = user_info.get('id')
-    # display
-    text = str(user_info)
-    return text
+    access_right = check_access_right(user_id)
+    key_status = check_key_status()
+    # return str(user_info)
+    return render_template(
+            'account.html',
+            user_info=user_info,
+            access_right=access_right,
+            key_status=key_status)
 
-@app.route('/logout')
-def logout():
+def check_key_status():
+    conn = sqlite3.connect('keyopener.sqlite3')
+    c = conn.cursor()
+    sql = "SELECT status FROM keystatus"
+    c.execute(sql)
+    data = c.fetchone()
+    conn.close()
+    return data[0]
+
+def check_access_right(user_id):
+    conn = sqlite3.connect('keyopener.sqlite3')
+    c = conn.cursor()
+    sql = ("""SELECT authorized FROM user WHERE """
+           """user_id = '{user_id}'""")
+    sql = sql.format(user_id=user_id)
+    c.execute(sql)
+    data = c.fetchone()
+    conn.close()
+    if data is None or data[0] == 0:
+        return False
+    else:
+        return True
+
+def give_access_right(user_id):
+    conn = sqlite3.connect('keyopener.sqlite3')
+    c = conn.cursor()
+    sql = ("""INSERT INTO user (user_id, authorized) """
+           """VALUES ('{user_id}', 1)""")
+    sql = sql.format(user_id=user_id)
+    c.execute(sql)
+    conn.close()
+
+def remove_access_right(user_id):
+    conn = sqlite3.connect('keyopener.sqlite3')
+    c = conn.cursor()
+    sql = ("""UPDATE user SET authorized = 0 """
+           """WHERE user_id = '{user_id}'""")
+    sql = sql.format(user_id=user_id)
+    c.execute(sql)
+    conn.close()
+
+@app.route('/signout')
+def signout():
     # remove the username from the session if it's there
     session.pop('user_id', None)
     return redirect(url_for('index'))
