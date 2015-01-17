@@ -23,7 +23,7 @@
       .signin-card {
         margin: auto;
         margin-top: 100px;
-        height: 300px;
+        height: 280px;
         width: 300px;
         background-color: #f7f7f7;
         -moz-border-radius: 2px;
@@ -38,7 +38,7 @@
         margin-bottom: 10px;
       }
       .banner h2 {
-        font-size: 32px;
+        font-size: 25px;
         margin-top: 0;
         margin-bottom: 30px;
         color: #777777;
@@ -79,6 +79,22 @@
       .btn-primary {
         background-color: #2196F3;
       }
+      .footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        font-weight: 400;
+        margin-top: 50px;
+        border-top: 1px solid #eeeeee;
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+      @media(max-height:480px) {
+        .footer {
+          position: relative;
+        }
+      }
     </style>
   </head>
   <body>
@@ -95,6 +111,11 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="text-center">
+        © 2015 Kentaro Wada. All Rights Reserved
       </div>
     </div>
   </body>
