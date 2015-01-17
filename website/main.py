@@ -22,7 +22,7 @@ app = Flask(__name__, static_url_path='/static')
 
 CLIENTSECRETS_LOCATION = os.path.join(os.path.dirname(__file__),
         'client_secrets.json')
-REDIRECT_URI = 'http://localhost:5000/step2/'
+REDIRECT_URI = 'http://keyopener.com/step2/'
 SCOPES = ['email', 'profile']
 
 @app.route('/')
@@ -159,7 +159,7 @@ def manage_user_access_right():
     NotImplementedError()
 
 @app.route('/open-key')
-def open_key()
+def open_key():
     if 'user_id' not in session:
         # if not logged in 
         return redirect(url_for('/'))
@@ -167,7 +167,7 @@ def open_key()
     os.system('python {0}'.format(open_file))
 
 @app.route('/close-key')
-def close_key()
+def close_key():
     if 'user_id' not in session:
         # if not logged in 
         return redirect(url_for('/'))
@@ -204,4 +204,4 @@ def signout():
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 if __name__ == '__main__':
-    app.run('0.0.0.0', debug=True)
+    app.run('0.0.0.0', port=80, debug=True)

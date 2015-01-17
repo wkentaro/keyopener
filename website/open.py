@@ -3,8 +3,9 @@
 # open.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
 
+import os
 import sys
-sys.path.insert(0, sys.path.join(sys.path.dirname(__file__), '../code'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../code'))
 
 from servo_2BBMG import Servo2BBMG
 
