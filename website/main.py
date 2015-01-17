@@ -6,6 +6,7 @@ import sqlite3
 import httplib2
 import logging
 import os
+import sys
 import pickle
 import sqlite3
 
@@ -18,12 +19,14 @@ from apiclient.discovery import build
 from oauth2client.client import FlowExchangeError
 from apiclient import errors
 
+logging.basicConfig(stream=sys.stderr)
 app = Flask(__name__, static_url_path='/static')
 
 CLIENTSECRETS_LOCATION = os.path.join(os.path.dirname(__file__),
         'client_secrets.json')
 REDIRECT_URI = 'http://keyopener.com/step2/'
 SCOPES = ['email', 'profile']
+DB_PATH = os.path.join(os.path.dirname(__file__), 'keyopener.sqlite3')
 
 @app.route('/')
 def index():
@@ -49,7 +52,7 @@ def store_credentials(user_id, credentials):
         sql = ("""INSERT INTO credentials (user_id, credentials) """
                """VALUES ('{user_id}', '{credentials}')""")
     # store credentials
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = sql.format(user_id=user_id, credentials=credentials.to_json())
     c.execute(sql)
@@ -58,7 +61,7 @@ def store_credentials(user_id, credentials):
 
 def get_stored_credentials(user_id):
     # get data from database
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""SELECT credentials FROM credentials WHERE """
            """user_id = '{user_id}'""")
@@ -114,7 +117,7 @@ def google_signin_step2():
 def account():
     if 'user_id' not in session:
         # if not logged in 
-        return redirect(url_for('/'))
+        return redirect(url_for('index'))
 
     user_id = session['user_id']
     credentials = get_stored_credentials(user_id)
@@ -132,7 +135,7 @@ def account():
             key_status=key_status)
 
 def check_key_status():
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = "SELECT status FROM keystatus"
     c.execute(sql)
@@ -141,7 +144,7 @@ def check_key_status():
     return data[0]
 
 def check_access_right(email_address):
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""SELECT authorized FROM user WHERE """
            """email_address = '{email_address}'""")
@@ -154,30 +157,30 @@ def check_access_right(email_address):
     else:
         return True
 
-@app.route('/manage-user-access-right')
+@app.route('/manage-user-access-right/')
 def manage_user_access_right():
     NotImplementedError()
 
-@app.route('/open-key')
+@app.route('/open-key/')
 def open_key():
     if 'user_id' not in session:
         # if not logged in 
-        return redirect(url_for('/'))
-    open_file = sys.path.join(os.path.dirname(__file__), 'open.py')
+        return redirect(url_for('index'))
+    open_file = os.path.join(os.path.dirname(__file__), 'open.py')
     os.system('python {0}'.format(open_file))
 
-@app.route('/close-key')
+@app.route('/close-key/')
 def close_key():
     if 'user_id' not in session:
         # if not logged in 
-        return redirect(url_for('/'))
-    close_file = sys.path.join(os.path.dirname(__file__), 'close.py')
+        return redirect(url_for('index'))
+    close_file = os.path.join(os.path.dirname(__file__), 'close.py')
     os.system('python {0}'.format(close_file))
 
-@app.route('/give-access-right', methods=['POST'])
+@app.route('/give-access-right/', methods=['POST'])
 def give_access_right(user_id):
     user_id = request.form['user_id']
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""INSERT INTO user (email_address, authorized) """
            """VALUES ('{email_address}', 1)""")
@@ -185,10 +188,10 @@ def give_access_right(user_id):
     c.execute(sql)
     conn.close()
 
-@app.route('/remove-access-right', methods=['POST'])
+@app.route('/remove-access-right/', methods=['POST'])
 def remove_access_right():
     user_id = request.form['user_id']
-    conn = sqlite3.connect('keyopener.sqlite3')
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = ("""UPDATE user SET authorized = 0 """
            """WHERE email_address = '{email_address}'""")
@@ -196,7 +199,7 @@ def remove_access_right():
     c.execute(sql)
     conn.close()
 
-@app.route('/signout')
+@app.route('/signout/')
 def signout():
     # remove the username from the session if it's there
     session.pop('user_id', None)
