@@ -16,8 +16,8 @@ Hosting
 edit `/etc/apache2/sites-available/jishupro.conf`
 ```
 <VirtualHost *:80>
-  ServerName wkentaro-raspi.ddo.jp
-  WSGIScriptAlias / /home/pi/Work/jishu-pro/website/jishupro.wsgi
+  ServerName keyopener.ddo.jp
+  WSGIScriptAlias / /home/pi/Work/jishupro/website/jishupro.wsgi
 </VirtualHost>
 ```
 
