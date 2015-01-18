@@ -26,7 +26,7 @@ app = Flask(__name__, static_url_path='/static')
 
 CLIENTSECRETS_LOCATION = os.path.join(os.path.dirname(__file__),
         'client_secrets.json')
-REDIRECT_URI = 'http://wkentaro-raspi.ddo.jp/step2/'
+REDIRECT_URI = 'http://keyopener.ddo.jp/step2/'
 SCOPES = ['email', 'profile']
 DB_PATH = os.path.join(os.path.dirname(__file__), 'keyopener.sqlite3')
 
@@ -270,7 +270,7 @@ def signout():
 def log():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = 'SELECT * FROM log'
+    sql = 'SELECT * FROM log ORDER BY time DESC'
     c.execute(sql)
     log = c.fetchall()
     conn.close()
