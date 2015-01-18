@@ -1,3 +1,5 @@
+import os
 import sys
-sys.path.insert(0, '/home/pi/Work/jishu-pro/website')
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from main import app as application
