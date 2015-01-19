@@ -2,6 +2,10 @@
 # -*- coding:utf-8 -*-
 # speak_raspi_listener.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '../../code'))
+
 import rospy
 from std_msgs.msg import String
 
@@ -16,7 +20,7 @@ def callback(msg):
 
 def listener():
     rospy.init_node('speak_raspi_listener')
-    rospy.Subscriber('/jishu_pro/speak_raspi', String, callback)
+    rospy.Subscriber('/jishupro/speak_raspi', String, callback)
     rospy.spin()
 
 
