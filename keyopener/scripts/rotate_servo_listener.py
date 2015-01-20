@@ -7,24 +7,22 @@ import sys
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '../../code'))
 
 import rospy
-from std_msgs.msg import Bool
+from std_msgs.msg import Float32
 
-from blink_led import BlinkLed
+from servo_2BBMG import Servo2BBMG
 
-PIN_CTRL = 13
+PIN_CTRL = 21
 
 
-bl = BlinkLed(PIN_CTRL)
 def callback(msg):
-    if msg.data is True:
-        bl.on()
-    else:
-        bl.off()
+    s = Servo2BBMG(PIN_CTRL)
+    s.rotate(msg.data)
+    s.cleanup()
 
 
 def listener():
-    rospy.init_node('blink_led_listener')
-    rospy.Subscriber('/jishupro/blink_led', Bool, callback)
+    rospy.init_node('rotate_servo_listener')
+    rospy.Subscriber('/keyopener/rotate_servo', Float32, callback)
     rospy.spin()
 
 

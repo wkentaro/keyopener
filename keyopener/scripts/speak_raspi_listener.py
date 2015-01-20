@@ -20,7 +20,7 @@ def callback(msg):
 
 def listener():
     rospy.init_node('speak_raspi_listener')
-    rospy.Subscriber('/jishupro/speak_raspi', String, callback)
+    rospy.Subscriber('/keyopener/speak_raspi', String, callback)
     rospy.spin()
 
 
