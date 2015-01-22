@@ -270,7 +270,7 @@ def signout():
 def log():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = 'SELECT * FROM log ORDER BY time DESC'
+    sql = 'SELECT * FROM log ORDER BY time DESC LIMIT 30'
     c.execute(sql)
     log = c.fetchall()
     conn.close()
