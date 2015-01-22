@@ -272,7 +272,7 @@ def store_access_log(name, action):
     c = conn.cursor()
     sql = ("""INSERT INTO log (time, name, action) """
            """VALUES ('{time}', '{name}', '{action}')""")
-    sql = sql.format(time=time, name=name, action=action)
+    sql = sql.format(time=time, name=name.encode('utf-8'), action=action)
     c.execute(sql)
     conn.commit()
     conn.close()
