@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 # rotate_servo_listener.py
 # author: Kentaro Wada <www.kentaro.wada@gmail.com>
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '../../code'))
+
 import rospy
 from std_msgs.msg import Bool
 
@@ -20,7 +24,7 @@ def callback(msg):
 
 def listener():
     rospy.init_node('blink_led_listener')
-    rospy.Subscriber('/jishu_pro/blink_led', Bool, callback)
+    rospy.Subscriber('/keyopener/blink_led', Bool, callback)
     rospy.spin()
 
 

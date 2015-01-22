@@ -14,8 +14,8 @@ from std_msgs.msg import (
 class Raspi(object):
     def __init__(self):
         rospy.init_node('raspi_interface')
-        self.pb_rotate_servo = rospy.Publisher('/jishu_pro/rotate_servo', Float32, queue_size=10)
-        self.pb_speak = rospy.Publisher('/jishu_pro/speak_raspi', String, queue_size=10)
+        self.pb_rotate_servo = rospy.Publisher('/keyopener/rotate_servo', Float32, queue_size=10)
+        self.pb_speak = rospy.Publisher('/keyopener/speak_raspi', String, queue_size=10)
         rospy.sleep(1)
 
     def speak(self, sentence):

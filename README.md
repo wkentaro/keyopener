@@ -1,5 +1,9 @@
-jishu-pro
+keyopener
 =========
+Making product project in the class in UTokyo named "Jishupro".
+
+Website: http://keyopener.ddo.jp
+ 
 
 Apache + sudo
 ---
@@ -14,6 +18,7 @@ Hosting
 ---
 
 edit `/etc/apache2/sites-available/jishupro.conf`
+
 ```
 <VirtualHost *:80>
   ServerName keyopener.ddo.jp

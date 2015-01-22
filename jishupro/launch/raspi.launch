@@ -1,5 +1,0 @@
-<launch>
-    <node pkg="jishu_pro" type="rotate_servo_listener.py" name="rotate_servo" />
-    <node pkg="jishu_pro" type="speak_raspi_listener.py" name="speak_raspi" />
-    <node pkg="jishu_pro" type="blink_led_listener.py" name="blink_led" />
-</launch>
