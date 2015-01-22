@@ -15,7 +15,7 @@ from servo_2BBMG import Servo2BBMG
 
 def main():
     servo = Servo2BBMG(pin=14)
-    servo.rotate(-90)
+    servo.rotate(90)
 
 
 if __name__ == '__main__':

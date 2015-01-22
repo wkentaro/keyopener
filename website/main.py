@@ -272,7 +272,7 @@ def store_access_log(name, action):
     c = conn.cursor()
     sql = ("""INSERT INTO log (time, name, action) """
            """VALUES ('{time}', '{name}', '{action}')""")
-    sql = sql.format(time=time, name=name, action=action)
+    sql = sql.format(time=time, name=name.encode('utf-8'), action=action)
     c.execute(sql)
     conn.commit()
     conn.close()
@@ -302,7 +302,7 @@ def signout():
 def log():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = 'SELECT * FROM log ORDER BY time DESC'
+    sql = 'SELECT * FROM log ORDER BY time DESC LIMIT 30'
     c.execute(sql)
     log = c.fetchall()
     conn.close()
