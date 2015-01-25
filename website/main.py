@@ -166,6 +166,14 @@ def account():
         key_status=key_status)
 
 
+@app.route('/get-key-status/')
+def get_key_status():
+    if 'user_id' not in session:
+        # if not logged in
+        return redirect(url_for('index'))
+    return check_key_status()
+
+
 def check_key_status():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -241,7 +249,7 @@ def close_key():
     # update db
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    sql = "UPDATE keystatus SET status = 'close'"
+    sql = "UPDATE keystatus SET status = 'closed'"
     c.execute(sql)
     conn.commit()
     conn.close()
@@ -254,6 +262,10 @@ def close_key():
 
 @app.route('/give-access-right/', methods=['POST'])
 def give_access_right():
+    if 'user_id' not in session:
+        # if not logged in
+        return redirect(url_for('index'))
+
     email_address = request.form['email']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -280,6 +292,10 @@ def store_access_log(name, action):
 
 @app.route('/remove-access-right/', methods=['POST'])
 def remove_access_right():
+    if 'user_id' not in session:
+        # if not logged in
+        return redirect(url_for('index'))
+
     email_address = request.form['email']
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -293,6 +309,10 @@ def remove_access_right():
 
 @app.route('/signout/')
 def signout():
+    if 'user_id' not in session:
+        # if not logged in
+        return redirect(url_for('index'))
+
     # remove the username from the session if it's there
     session.pop('user_id', None)
     return redirect(url_for('index'))
@@ -300,6 +320,10 @@ def signout():
 
 @app.route('/log/')
 def log():
+    if 'user_id' not in session:
+        # if not logged in
+        return redirect(url_for('index'))
+
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     sql = 'SELECT * FROM log ORDER BY time DESC LIMIT 30'

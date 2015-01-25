@@ -63,6 +63,13 @@
       $("#close_key").css('display', 'none');
     }
   }
+  function timerCount() {
+    $.get("/get-key-status/", function(data) {
+      keyStatus = data;
+      refreshButton();
+    });
+    window.setTimeout("timerCount()", 1000);
+  }
   $(document).ready(function(){
     refreshButton();
     $("#open_key").click(function(){
@@ -77,7 +84,8 @@
             refreshButton();
             });
         });
-    });
+    timerCount();
+  });
   </script>
 </head>
 <body>
