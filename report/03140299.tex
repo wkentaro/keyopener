@@ -2,32 +2,22 @@
 %     Created: Sun Feb 15 04:00 AM 2015 J
 % Last Change: Sun Feb 15 04:00 AM 2015 J
 %
-\documentclass[a4paper,10pt]{jarticle}
+\documentclass[a4paper,10pt,twocolumn]{jarticle}
 
-%%%%%%%%%%%%%%%%%%%%%
-% to input Japanese %
-%%%%%%%%%%%%%%%%%%%%%
+% to input Japanese
 \usepackage[japanese]{babel}
 
-%%%%%%%%%%%
-% unknown %
-%%%%%%%%%%%
-% \usepackage{ascmac}
+% for itemize[noitemsep] (compact itemizing)
+\usepackage{enumitem}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% to be standard a4paper %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to be standard a4paper
 \usepackage{geometry}
 \geometry{left=20mm, right=20mm, top=20mm, bottom=40mm}
 
-%%%%%%%%%%%%%%%%%%%%%
-% to insert figures %
-%%%%%%%%%%%%%%%%%%%%%
+% to insert figures
 \usepackage[dvipdfmx]{graphicx}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-% to insert source codes %
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% to insert source codes
 % \usepackage{listings, jlisting}
 % \renewcommand{\lstlistingname}{list}
 % \lstset{language=C,
@@ -51,37 +41,32 @@
 \author{03-140299 東京大学機械情報工学科 3年 和田健太郎}
 
 
-% 様式
-% ----
-% ・各自レポートを提出(A4用紙、左綴じ)．
-% ・テーマ名　・氏名　・番号を表紙に記入．
-% ・目的（何をするものか）、原理、設計、製作過程、動作結果．
-% ・工夫、苦労、自己評価、などの考察および感想を要領よくまとめてください．
-% ・図表を充分に活用して、簡潔・具体的に伝わるように
+
+
 
 \begin{document}
+
+
+
+
+
 \maketitle
 
-\input{./summary.tex}
 
-\input{./purpose.tex}
 
-\input{./principle.tex}
 
-\section{設計}
-% システム図
 
-\section{製作過程}
-% 設計
-% 工作
-% ソフトウェア
+\input{./include/summary.tex}
+\input{./include/purpose.tex}
+\input{./include/principle.tex}
+\input{./include/design.tex}
+\input{./include/making.tex}
+\input{./include/result.tex}
+\input{./include/consideration.tex}
+\input{./include/finally.tex}
 
-\section{動作結果}
-% 回転した
 
-\section{考察}
-\section{最後に}
-% 感想など
+
 
 
 \begin{thebibliography}{9}
@@ -90,3 +75,4 @@
 
 
 \end{document}
+
