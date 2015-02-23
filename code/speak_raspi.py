@@ -27,4 +27,14 @@ class SpeakRaspi(object):
         self.sentence = sentence
         self._get_audio()
         self._play_audio()
-        self._cleanup()
+        self._rm_audio()
+
+
+def test_SpeakRaspi():
+    s = SpeakRaspi()
+    s.speak('Hello')
+
+
+if __name__ == '__main__':
+    test_SpeakRaspi()
+
